@@ -14,5 +14,8 @@
 !models/books.py
 !schemas/books.py
 !routers/books.py
+!models/__init__.py
+!schemas/__init__.py
+!routers/__init__.py
 !library.db
 
