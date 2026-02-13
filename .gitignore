@@ -1,0 +1,18 @@
+#1.Игнорировать все.
+*
+
+#2.Разрешаем нужное.
+!.gitignore
+!README.md
+!main.py
+!database.py
+!repository.py
+!requirements.txt
+!/models
+!/schemas
+!/routers
+!models/books.py
+!schemas/books.py
+!routers/books.py
+!library.db
+
