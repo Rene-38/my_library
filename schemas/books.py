@@ -1,13 +1,17 @@
 from pydantic import BaseModel, Field, ConfigDict
 
-class SBookAdd(BaseModel):
+class SBookBase(BaseModel):
     title: str
     author: str
     year: int
     pages: int = Field(gt=10)
     is_read: bool=False
 
-class SBook(SBookAdd):
+
+class SBookAdd(SBookBase):
+    pass
+
+class SBook(SBookBase):
     id: int
     model_config = ConfigDict(from_attributes=True) #Для того чтобы Pydantic понимал чтобы заполнить поле id, необходимо взять object.id а не object["id"].
 

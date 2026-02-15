@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.books import BookModel
@@ -20,4 +20,38 @@ class BookRepository:
         result = await session.execute(query)
         books_models = result.scalars().all()
         return books_models
+
+    @classmethod
+    async def find_one(cls, id: int, session: AsyncSession):
+        query = select(BookModel).where(BookModel.id == id)
+        result = await session.execute(query)
+        book_model = result.scalars().first()
+        return book_model
+
+    @classmethod
+    async def update_book(cls, id: int, data: SBookAdd, session: AsyncSession):
+        query = select(BookModel).where(BookModel.id == id)
+        result = await session.execute(query)
+        book_model = result.scalars().first()           #нашли нужную книгу по заданому id
+        if book_model != None:
+            book_model.title = data.title
+            book_model.author = data.author
+            book_model.year = data.year
+            book_model.pages = data.pages
+            await session.commit()
+            await session.refresh(book_model)
+            return book_model
+        else:
+            return None
+
+    @classmethod
+    async def dell(cls, id: int, session: AsyncSession):
+        query = select(BookModel).where(BookModel.id == id)
+        if query != None:
+            stmt = delete(BookModel).where(BookModel.id == id)
+            await session.execute(stmt)
+            await session.commit()
+        else:
+            return None
+
 
